@@ -1,16 +1,34 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const port = process.env.PORT || 4000;
+const port = 4000;
 
+// CORS middleware with restricted access
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://server-a-beta.vercel.app/');
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // Allow only from Server A
+    res.header('Access-Control-Allow-Methods', 'GET'); // Restrict to only GET
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Add Authorization header
     res.header('Access-Control-Allow-Credentials', 'true');
-    next();
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
 });
 
+// Middleware to check for the secret token
+app.use('/file', (req, res, next) => {
+    const secretToken = 'thecyberhub';
+    const authHeader = req.headers.authorization;
+
+    if (authHeader && authHeader === `Bearer ${secretToken}`) {
+        next();
+    } else {
+        res.status(403).send('Forbidden');
+    }
+});
+
+// Serve example.txt file
 app.get('/file', (req, res) => {
     res.sendFile(path.join(__dirname, 'example.txt'));
 });
