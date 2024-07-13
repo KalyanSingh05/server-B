@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 
 // Middleware to check for the secret token
 app.use('/file', (req, res, next) => {
-    const secretToken = 'thecyberhub';
+    const secretToken = 'af2aac6e8c58aa10a8723d7800d8b0e3';
     const authHeader = req.headers.authorization;
 
     if (authHeader && authHeader === `Bearer ${secretToken}`) {
