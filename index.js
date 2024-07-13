@@ -5,7 +5,7 @@ const port = 4000;
 
 // CORS middleware with restricted access
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // Allow only from Server A
+    res.header('Access-Control-Allow-Origin', '*'); // Allow only from Server A
     res.header('Access-Control-Allow-Methods', 'GET'); // Restrict to only GET
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Add Authorization header
     res.header('Access-Control-Allow-Credentials', 'true');
